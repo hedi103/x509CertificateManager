@@ -1,0 +1,47 @@
+service: dormakaba-nodejs-ex
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  lambdaHashingVersion: 20201221
+  region: ${file(config.json):REGION}
+  stage: ${file(config.json):STAGE}
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "s3:GetObject"
+        - "dynamodb:GetItem"
+        - "dynamodb:PutItem"
+        - "dynamodb:UpdateItem"
+        - "dynamodb:DeleteItem"
+      Resource:
+        - "arn:aws:s3:::${file(config.json):S3_BUCKET}/*"
+        - { "Fn::GetAtt": ["signaturesTable", "Arn"] }
+
+
+
+functions:
+  certificateManager:
+    handler: index.handler
+
+resources:
+  Resources:
+    s3WithLambda:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${file(config.json):S3_BUCKET}
+    signaturesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+            TableName: ${file(config.json):TABLE}
+            AttributeDefinitions:
+              - AttributeName: commonName
+                AttributeType: S
+            KeySchema:
+              - AttributeName: commonName
+                KeyType: HASH
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1

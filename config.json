@@ -1,0 +1,7 @@
+{
+    "REGION": "eu-west-1",
+    "STAGE": "dev",
+    "S3_BUCKET": "certificates26012022",
+    "KEY": "certification.pem",
+    "TABLE": "signaturesTable"
+}

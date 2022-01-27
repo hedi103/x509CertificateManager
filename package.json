@@ -1,0 +1,17 @@
+{
+  "name": "dormakaba-nodejs-ex",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "locally": "node -e \"console.log(require('./index').handler());\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "node-forge": "^1.2.1",
+    "node-rsa": "^1.1.1"
+  }
+}
